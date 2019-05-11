@@ -3,10 +3,8 @@ package com.api.movie.controller;
 import com.api.movie.entity.Movie;
 import com.api.movie.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -19,13 +17,35 @@ public class MovieController {
     private MovieService movieService;
 
     @PostMapping
-    public void createMovie(){
-        Movie test = new Movie("test","test",1000,new BigDecimal(3.2));
-        this.movieService.createMovie(test);
+    @ResponseStatus(HttpStatus.CREATED)
+    public Movie createMovie(@RequestBody Movie movie){
+       return this.movieService.createMovie(movie);
+    }
+
+    @GetMapping(path="/list")
+    public List<Movie> getMovies(){
+        return this.movieService.getAllMovies();
+    }
+
+    @GetMapping(path="/{movie_id}")
+    public Movie getMovieById(@PathVariable(name = "movie_id") Long movieId){
+        return this.movieService.getMovieById(movieId);
     }
 
     @GetMapping
-    public List<Movie> getMovies(){
-        return this.movieService.getAllMovies();
+    public List<Movie> getMovieByName(@RequestParam(name = "name") String name){
+        return this.movieService.getMovieByName(name);
+    }
+
+    @PutMapping
+    @ResponseStatus(HttpStatus.OK)
+    public Movie updateMovie(@RequestBody Movie movie){
+        return this.movieService.updateMovie(movie);
+    }
+
+    @DeleteMapping(path="/{movie_id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteMovie(@PathVariable(name = "movie_id") Long movieId){
+        this.movieService.deleteMovie(movieId);
     }
 }

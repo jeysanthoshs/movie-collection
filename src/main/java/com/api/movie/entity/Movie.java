@@ -23,6 +23,10 @@ public class Movie {
         this.rating = rating;
     }
 
+    public Movie(Long movieId){
+        this.id=movieId;
+    }
+
     public Movie(){
 
     }

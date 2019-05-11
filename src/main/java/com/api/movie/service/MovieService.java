@@ -15,12 +15,28 @@ public class MovieService {
     @Autowired
     private MovieRepository movieRepository;
 
-    public void createMovie(Movie movie){
-        this.movieRepository.save(movie);
+    public Movie createMovie(Movie movie){
+        return this.movieRepository.save(movie);
     }
 
     public List<Movie> getAllMovies(){
 
        return this.movieRepository.findAll();
+    }
+
+    public Movie getMovieById(Long movieId) {
+        return this.movieRepository.findById(movieId).orElse(null);
+    }
+
+    public List<Movie> getMovieByName(String name) {
+        return this.movieRepository.findByNameLike(name);
+    }
+
+    public Movie updateMovie(Movie movie) {
+        return this.movieRepository.save(movie);
+    }
+
+    public void deleteMovie(Long movieId) {
+        this.movieRepository.delete(new Movie(movieId));
     }
 }
