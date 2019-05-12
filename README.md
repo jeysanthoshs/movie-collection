@@ -6,7 +6,8 @@ Movie collection API is a backend service that provides information about a priv
 GET /api/timeOfDay - Returns the time of the day
 GET /api/movie/list - Returns all the movies in the collection
 GET /api/movie/{movie_id} - returns the movie with the specific ID
-GET /api/movie?name={name} - returns all the movies matching the name
+GET /api/movie?name={name}&year={year}&rating={rating} - returns all the movies matching the search condition
+                    [name->contains, year -> exact match, rating->greater than input].Search query is optional
 POST /api/movie - creates a new movie in the movie collection
 PUT /api/movie - Updates the movie data in the datastore
 DELETE /api/movie/{movie_id} - removes the movie from the collection
@@ -18,8 +19,8 @@ All request and response for this API to retrieve, create and update the movie c
 ```
 {
         "id": 1,
-        "name": "test",
-        "genere": "test",
+        "name": "Movie Name",
+        "genere": "Movie Genere",
         "releaseYear": 1000,
         "rating": 3.2
 }
@@ -32,10 +33,22 @@ rating - Overall rating of the movie
 
 ### Instructions to execute
 
-//TODO
+To run the application, either:
 
 ```
-//TODO
+From command line, execute "gradle bootRun". Application will startup in port 9090
+```
+
+OR
+
+```
+From command line, execute "gradle build". Command will create a "war" package which can be deployed in any application server
+```
+
+OR
+
+```
+Deploy the war file from the /build/libs folder in the repository into any application server
 ```
 
 

@@ -33,8 +33,9 @@ public class MovieController {
     }
 
     @GetMapping
-    public List<Movie> getMovieByName(@RequestParam(name = "name") String name){
-        return this.movieService.getMovieByName(name);
+    public List<Movie> searchMovie(@RequestParam(name = "name",required = false) String name, @RequestParam(name = "year", required = false) Integer year, @RequestParam(name = "rating", required = false) BigDecimal rating ){
+
+       return this.movieService.searchMovie(name, year, rating);
     }
 
     @PutMapping
@@ -44,7 +45,7 @@ public class MovieController {
     }
 
     @DeleteMapping(path="/{movie_id}")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteMovie(@PathVariable(name = "movie_id") Long movieId){
         this.movieService.deleteMovie(movieId);
     }

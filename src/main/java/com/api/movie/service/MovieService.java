@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class MovieService {
@@ -29,7 +30,39 @@ public class MovieService {
     }
 
     public List<Movie> getMovieByName(String name) {
-        return this.movieRepository.findByNameLike(name);
+        return this.movieRepository.findByNameContainingIgnoreCase(name);
+    }
+
+    public List<Movie> searchMovie(String name, Integer year, BigDecimal rating){
+
+        boolean isNameSearch = name != null;
+        boolean isYearSearch = year != null;
+        boolean isRatingSearch = rating != null;
+
+        if(isNameSearch&&isYearSearch&&isRatingSearch){
+            return this.movieRepository.findByNameContainingIgnoreCaseAndReleaseYearAndRatingGreaterThan(name, year, rating);
+        }
+
+        if(isNameSearch && isYearSearch){
+           return this.movieRepository.findByNameContainingIgnoreCaseAndReleaseYear(name, year);
+        }
+
+        if(isNameSearch && isRatingSearch){
+            return this.movieRepository.findByNameContainingIgnoreCaseAndRatingGreaterThan(name, rating);
+        }
+
+        if(isYearSearch && isRatingSearch){
+            return this.movieRepository.findByReleaseYearAndRatingGreaterThan(year, rating);
+        }
+
+        if(isNameSearch)
+            return this.movieRepository.findByNameContainingIgnoreCase(name);
+        if(isYearSearch)
+            return this.movieRepository.findByReleaseYear(year);
+        if(isRatingSearch)
+            return this.movieRepository.findByRatingGreaterThan(rating);
+
+        return this.movieRepository.findAll();
     }
 
     public Movie updateMovie(Movie movie) {

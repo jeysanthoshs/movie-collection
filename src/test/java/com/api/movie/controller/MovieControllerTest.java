@@ -80,9 +80,81 @@ public class MovieControllerTest {
     @Test
     public void getMovieByName() throws Exception {
         mockMovie.setId(Long.valueOf(1));
-        Mockito.when(movieService.getMovieByName(Mockito.any())).thenReturn(Arrays.asList(mockMovie,mockMovie));
+        Mockito.when(movieService.searchMovie(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(Arrays.asList(mockMovie,mockMovie));
 
         RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/api/movie?name=test").accept(MediaType.APPLICATION_JSON);
+
+        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+        String expectedOutput = "[{id:1,genere:Drama,releaseYear:1994,rating:9.2},{id:1,genere:Drama,releaseYear:1994,rating:9.2}]";
+        JSONAssert.assertEquals(expectedOutput, result.getResponse().getContentAsString(),false);
+    }
+
+    @Test
+    public void getMovieByYear() throws Exception {
+        mockMovie.setId(Long.valueOf(1));
+        Mockito.when(movieService.searchMovie(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(Arrays.asList(mockMovie,mockMovie));
+
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/api/movie?year=1994").accept(MediaType.APPLICATION_JSON);
+
+        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+        String expectedOutput = "[{id:1,genere:Drama,releaseYear:1994,rating:9.2},{id:1,genere:Drama,releaseYear:1994,rating:9.2}]";
+        JSONAssert.assertEquals(expectedOutput, result.getResponse().getContentAsString(),false);
+    }
+
+    @Test
+    public void getMovieByRating() throws Exception {
+        mockMovie.setId(Long.valueOf(1));
+        Mockito.when(movieService.searchMovie(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(Arrays.asList(mockMovie,mockMovie));
+
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/api/movie?rating=9").accept(MediaType.APPLICATION_JSON);
+
+        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+        String expectedOutput = "[{id:1,genere:Drama,releaseYear:1994,rating:9.2},{id:1,genere:Drama,releaseYear:1994,rating:9.2}]";
+        JSONAssert.assertEquals(expectedOutput, result.getResponse().getContentAsString(),false);
+    }
+
+    @Test
+    public void getMovieByNameAndRating() throws Exception {
+        mockMovie.setId(Long.valueOf(1));
+        Mockito.when(movieService.searchMovie(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(Arrays.asList(mockMovie,mockMovie));
+
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/api/movie?name=test&rating=9").accept(MediaType.APPLICATION_JSON);
+
+        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+        String expectedOutput = "[{id:1,genere:Drama,releaseYear:1994,rating:9.2},{id:1,genere:Drama,releaseYear:1994,rating:9.2}]";
+        JSONAssert.assertEquals(expectedOutput, result.getResponse().getContentAsString(),false);
+    }
+
+    @Test
+    public void getMovieByNameAndYear() throws Exception {
+        mockMovie.setId(Long.valueOf(1));
+        Mockito.when(movieService.searchMovie(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(Arrays.asList(mockMovie,mockMovie));
+
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/api/movie?name=test&year=1994").accept(MediaType.APPLICATION_JSON);
+
+        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+        String expectedOutput = "[{id:1,genere:Drama,releaseYear:1994,rating:9.2},{id:1,genere:Drama,releaseYear:1994,rating:9.2}]";
+        JSONAssert.assertEquals(expectedOutput, result.getResponse().getContentAsString(),false);
+    }
+
+    @Test
+    public void getMovieByNameAndYearAndRating() throws Exception {
+        mockMovie.setId(Long.valueOf(1));
+        Mockito.when(movieService.searchMovie(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(Arrays.asList(mockMovie,mockMovie));
+
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/api/movie?name=test&year=1994&rating=9").accept(MediaType.APPLICATION_JSON);
+
+        MvcResult result = mockMvc.perform(requestBuilder).andReturn();
+        String expectedOutput = "[{id:1,genere:Drama,releaseYear:1994,rating:9.2},{id:1,genere:Drama,releaseYear:1994,rating:9.2}]";
+        JSONAssert.assertEquals(expectedOutput, result.getResponse().getContentAsString(),false);
+    }
+
+    @Test
+    public void getMovieByYearAndRating() throws Exception {
+        mockMovie.setId(Long.valueOf(1));
+        Mockito.when(movieService.searchMovie(Mockito.any(), Mockito.any(), Mockito.any())).thenReturn(Arrays.asList(mockMovie,mockMovie));
+
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/api/movie?year=1994&rating=9").accept(MediaType.APPLICATION_JSON);
 
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
         String expectedOutput = "[{id:1,genere:Drama,releaseYear:1994,rating:9.2},{id:1,genere:Drama,releaseYear:1994,rating:9.2}]";
@@ -113,6 +185,6 @@ public class MovieControllerTest {
 
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
         MockHttpServletResponse response = result.getResponse();
-        assertEquals(HttpStatus.OK.value(), response.getStatus());
+        assertEquals(HttpStatus.NO_CONTENT.value(), response.getStatus());
     }
 }
