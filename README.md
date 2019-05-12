@@ -57,3 +57,4 @@ Deploy the war file from the /build/libs folder in the repository into any appli
 * Java 8
 * Spring Boot, Spring Web, Spring JPA
 * Gradle
+* Embedded H2 database
